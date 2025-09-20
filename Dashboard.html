@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgroSmart Dashboard</title>
+    <style>
+      :root {
+        --primary-green: #22c55e;
+        --dark-text: #1f2937;
+        --body-text: #4b5563;
+        --background-light: #f9fafb;
+        --white: #ffffff;
+        --border-color: #e5e7eb;
+        --alert-red: #ef4444;
+        --blue: #3b82f6;
+        --orange: #f97316;
+        --purple: #8b5cf6;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        margin: 0;
+        background-color: var(--background-light);
+        color: var(--body-text);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      .dashboard-header {
+        background-color: var(--white);
+        border-bottom: 1px solid var(--border-color);
+      }
+      .dashboard-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--dark-text);
+        text-decoration: none;
+      }
+      .logout-btn {
+        text-decoration: none;
+        color: var(--body-text);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        transition: background-color 0.3s;
+      }
+      .logout-btn:hover {
+        background-color: var(--background-light);
+      }
+
+      /* Main Content */
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      .page-header h1 {
+        font-size: 2rem;
+        color: var(--dark-text);
+      }
+      .farm-selector {
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      @media (min-width: 1024px) {
+        .dashboard-grid {
+          grid-template-columns: 2fr 1fr;
+        }
+      }
+
+      /* Widgets and Cards */
+      .card {
+        background-color: var(--white);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .widget-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--dark-text);
+        margin-bottom: 1.5rem;
+      }
+
+      .data-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .data-card {
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 5px solid;
+      }
+      .data-card h4 {
+        margin: 0 0 0.5rem;
+        font-size: 0.9rem;
+        color: var(--body-text);
+      }
+      .data-card .value {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+      .data-card .status {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      /* Data Card Colors */
+      .data-card.blue {
+        border-color: var(--blue);
+      }
+      .data-card.blue .value {
+        color: var(--blue);
+      }
+      .data-card.orange {
+        border-color: var(--orange);
+      }
+      .data-card.orange .value {
+        color: var(--orange);
+      }
+      .data-card.purple {
+        border-color: var(--purple);
+      }
+      .data-card.purple .value {
+        color: var(--purple);
+      }
+
+      .irrigation-control .toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      /* Alert Widget */
+      .alert-widget .alert {
+        border-left: 5px solid var(--alert-red);
+        padding: 1rem;
+        background-color: rgba(239, 68, 68, 0.05);
+      }
+      .alert-widget .alert h4 {
+        color: var(--alert-red);
+        font-size: 1.1rem;
+        margin: 0 0 0.5rem;
+      }
+      .alert-widget .alert p,
+      .alert-widget .alert ol {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="dashboard-header">
+      <div class="container">
+        <a href="#" class="logo">AgroSmart</a>
+        <a href="index.html" class="logout-btn">Log Out</a>
+      </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem">
+      <div class="page-header">
+        <h1>Your Farm Overview</h1>
+        <select class="farm-selector">
+          <option>Jorethang Farm - Wheat Plot</option>
+          <option>Hillside Plot - Maize</option>
+        </select>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Main Content Column -->
+        <div class="main-column">
+          <div class="data-cards-grid">
+            <div class="card data-card blue">
+              <h4>Soil Moisture</h4>
+              <p class="value">45%</p>
+              <p class="status" style="color: var(--primary-green)">Optimal</p>
+            </div>
+            <div class="card data-card orange">
+              <h4>Soil Temperature</h4>
+              <p class="value">22°C</p>
+            </div>
+            <div class="card data-card purple">
+              <h4>Atmosphere</h4>
+              <p class="value">25°C / 65%</p>
+              <p style="font-size: 0.9rem">Temp / Humidity</p>
+            </div>
+            <div class="card data-card" style="border-color: #6b7280">
+              <h4>Wind</h4>
+              <p class="value" style="color: #374151">12 km/h</p>
+              <p style="font-size: 0.9rem">from NW</p>
+            </div>
+          </div>
+
+          <div class="card irrigation-control">
+            <h3 class="widget-title">Irrigation Control</h3>
+            <div class="toggle">
+              <span>Automatic Mode</span>
+              <!-- Simple Checkbox for Toggle -->
+              <input type="checkbox" checked />
+            </div>
+            <p>Last Watered: Today at 6:00 AM</p>
+            <button
+              style="
+                width: 100%;
+                padding: 0.8rem;
+                background-color: var(--blue);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                cursor: pointer;
+                margin-top: 1rem;
+              "
+            >
+              Start 30-Min Manual Cycle
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="sidebar">
+          <div class="card alert-widget">
+            <h3 class="widget-title">Actionable Alerts</h3>
+            <div class="alert">
+              <h4>CRITICAL: Frost Warning</h4>
+              <p>A low of <strong>-2°C</strong> is forecast in 48 hours.</p>
+              <h5 style="margin-top: 1rem; font-weight: 600">
+                Recommended Steps:
+              </h5>
+              <ol>
+                <li>Cover sensitive crops with frost cloths.</li>
+                <li>Run sprinklers overnight to protect buds.</li>
+                <li>Ensure soil is moist to retain heat.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 2rem">
+            <h3 class="widget-title">5-Day Forecast</h3>
+            <ul
+              style="
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                gap: 1rem;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <li><strong>Tomorrow:</strong> 26°C / 15°C - Partly Cloudy 🌥️</li>
+              <li>
+                <strong>Saturday:</strong> 24°C / 13°C - Showers 🌦️ (60% Chance)
+              </li>
+              <li><strong>Sunday:</strong> 22°C / 10°C - Sunny ☀️</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
