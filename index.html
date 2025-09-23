@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgroSmart - Intelligent Farming for Hilly Regions</title>
+    <meta
+      name="description"
+      content="AgroSmart brings smart irrigation and farming solutions to hilly regions. Save water, improve yield, and grow smarter with intelligent farming."
+    />
     <style>
-      /* CSS Variables and Basic Styles */
+      /* CSS Variables */
       :root {
         --primary-green: #22c55e;
         --dark-text: #1f2937;
@@ -25,6 +29,7 @@
         margin: 0;
         color: var(--body-text);
         line-height: 1.6;
+        background-color: var(--white);
       }
 
       /* Layout */
@@ -70,8 +75,43 @@
         transition: color 0.3s;
       }
 
-      .nav-links a:hover {
+      .nav-links a:hover,
+      .nav-links a:focus {
         color: var(--primary-green);
+        outline: none;
+      }
+
+      /* Hamburger Menu */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+      .hamburger span {
+        height: 3px;
+        width: 25px;
+        background: var(--dark-text);
+        margin: 4px 0;
+        border-radius: 5px;
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 60px;
+          right: 20px;
+          flex-direction: column;
+          background: var(--white);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          padding: 1rem;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .hamburger {
+          display: flex;
+        }
       }
 
       .auth-buttons a {
@@ -87,8 +127,10 @@
         color: var(--white);
       }
 
-      .auth-buttons .login-btn:hover {
+      .auth-buttons .login-btn:hover,
+      .auth-buttons .login-btn:focus {
         background-color: #16a34a;
+        outline: none;
       }
 
       /* Hero Section */
@@ -118,6 +160,18 @@
       .hero-content {
         position: relative;
         z-index: 1;
+        animation: fadeIn 1.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .hero h1 {
@@ -144,9 +198,21 @@
         background-color: var(--primary-green);
         color: var(--white);
       }
-      .btn-primary:hover {
+      .btn-primary:hover,
+      .btn-primary:focus {
         background-color: #16a34a;
         transform: scale(1.05);
+        outline: none;
+      }
+
+      .btn-secondary {
+        background-color: var(--white);
+        color: var(--primary-green);
+      }
+      .btn-secondary:hover,
+      .btn-secondary:focus {
+        background-color: #f0f0f0;
+        outline: none;
       }
 
       /* Sections */
@@ -196,20 +262,17 @@
         font-size: 2.5rem;
       }
 
-      .btn-secondary {
-        background-color: var(--white);
-        color: var(--primary-green);
-      }
-      .btn-secondary:hover {
-        background-color: #f0f0f0;
-      }
-
       /* Features */
       .feature-card {
         background-color: var(--background-light);
         padding: 2rem;
         border: 1px solid var(--border-color);
         border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       }
       .feature-card h3 {
         font-size: 1.25rem;
@@ -224,6 +287,12 @@
       }
       .form-group {
         margin-bottom: 1.5rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--dark-text);
       }
       .form-group input,
       .form-group textarea {
@@ -241,13 +310,25 @@
         text-align: center;
         padding: 2rem 0;
       }
+      .footer-links {
+        margin-bottom: 1rem;
+      }
+      .footer-links a {
+        color: #a0aec0;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover {
+        color: var(--primary-green);
+      }
     </style>
   </head>
   <body>
     <header>
-      <nav class="container">
+      <nav class="container" aria-label="Main navigation">
         <a href="#" class="logo">AgroSmart</a>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links">
           <li><a href="#challenge">The Challenge</a></li>
           <li><a href="#solution">Our Solution</a></li>
           <li><a href="#features">Features</a></li>
@@ -255,10 +336,14 @@
         <div class="auth-buttons">
           <a href="dashboard.html" class="login-btn">Log In</a>
         </div>
+        <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </div>
       </nav>
     </header>
 
     <main>
+      <!-- Hero Section -->
       <section class="hero">
         <div class="hero-content">
           <h1>Stop Guessing. Start Growing.</h1>
@@ -271,6 +356,7 @@
         </div>
       </section>
 
+      <!-- Challenge Section -->
       <section id="challenge" style="background-color: var(--background-light)">
         <div class="container">
           <h2 class="section-title">
@@ -299,18 +385,11 @@
         </div>
       </section>
 
+      <!-- Solution Section -->
       <section id="solution">
         <div class="container grid-2-col">
           <div>
-            <h2
-              style="
-                font-size: 2.5rem;
-                color: var(--dark-text);
-                margin-bottom: 1rem;
-              "
-            >
-              Introducing AgroSmart: Your Farm's Intelligent Partner
-            </h2>
+            <h2>Introducing AgroSmart: Your Farm's Intelligent Partner</h2>
             <p>
               AgroSmart is a complete hardware and software solution designed
               specifically for hilly terrains. Our system uses real-time data
@@ -322,12 +401,14 @@
           <div>
             <img
               src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/sih_app_mockup.width-1000.format-webp.webp"
-              alt="AgroSmart App Interface"
+              alt="AgroSmart mobile app interface showing irrigation controls"
+              loading="lazy"
             />
           </div>
         </div>
       </section>
 
+      <!-- Get in Touch Section -->
       <section id="get-in-touch">
         <div class="container">
           <h2>Ready to Transform Your Farm?</h2>
@@ -340,6 +421,7 @@
         </div>
       </section>
 
+      <!-- Features Section -->
       <section id="features">
         <div class="container">
           <h2 class="section-title">Technology Built for the Hills</h2>
@@ -376,32 +458,39 @@
         </div>
       </section>
 
+      <!-- Contact Section -->
       <section id="contact" style="background-color: var(--background-light)">
         <div class="container">
           <h2 class="section-title">Contact Our Team</h2>
           <div id="form-container">
-            <form id="contact-form">
+            <form id="contact-form" role="form" aria-label="Contact form">
               <div class="form-group">
+                <label for="name">Your Name</label>
                 <input
                   type="text"
+                  id="name"
                   name="name"
-                  placeholder="Your Name"
+                  placeholder="John Doe"
                   required
                 />
               </div>
               <div class="form-group">
+                <label for="email">Email Address</label>
                 <input
                   type="email"
+                  id="email"
                   name="email"
-                  placeholder="Email Address"
+                  placeholder="you@example.com"
                   required
                 />
               </div>
               <div class="form-group">
+                <label for="message">Your Message</label>
                 <textarea
+                  id="message"
                   name="message"
                   rows="5"
-                  placeholder="Your Message"
+                  placeholder="How can we help you?"
                   required
                 ></textarea>
               </div>
@@ -420,36 +509,43 @@
       </section>
     </main>
 
+    <!-- Footer -->
     <footer>
       <div class="container">
+        <div class="footer-links">
+          <a href="#challenge">Challenge</a> |
+          <a href="#solution">Solution</a> | <a href="#features">Features</a> |
+          <a href="#contact">Contact</a>
+        </div>
         <p>&copy; 2025 AgroSmart by Code-tivators. All Rights Reserved.</p>
       </div>
     </footer>
 
     <script>
+      // Contact form handling
       const contactForm = document.getElementById("contact-form");
       const formContainer = document.getElementById("form-container");
       const successMessage = document.getElementById("success-message");
 
       contactForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the default form submission
-
+        event.preventDefault();
         const formData = new FormData(contactForm);
         const name = formData.get("name");
         const email = formData.get("email");
         const message = formData.get("message");
 
-        console.log("Form Submitted:");
-        console.log("Name:", name);
-        console.log("Email:", email);
-        console.log("Message:", message);
+        console.log("Form Submitted:", { name, email, message });
 
-        // This is where you would typically send the data to a server
-        // For example: fetch('/api/contact', { method: 'POST', body: formData });
-
-        // Hide the form and show the success message
         formContainer.style.display = "none";
         successMessage.style.display = "block";
+      });
+
+      // Hamburger menu toggle
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("nav-links");
+
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
       });
     </script>
   </body>

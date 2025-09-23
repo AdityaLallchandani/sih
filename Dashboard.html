@@ -191,7 +191,12 @@
     <main class="container" style="padding-top: 2rem; padding-bottom: 2rem">
       <div class="page-header">
         <h1>Your Farm Overview</h1>
-        <select class="farm-selector">
+        <label
+          for="farm-selector"
+          style="margin-right: 0.5rem; font-weight: 500"
+          >Select Farm:</label
+        >
+        <select id="farm-selector" class="farm-selector">
           <option>Jorethang Farm - Wheat Plot</option>
           <option>Hillside Plot - Maize</option>
         </select>
@@ -212,8 +217,13 @@
             </div>
             <div class="card data-card purple">
               <h4>Atmosphere</h4>
-              <p class="value">25°C / 65%</p>
+              <p class="value" id="atmo-value">--°C / --%</p>
               <p style="font-size: 0.9rem">Temp / Humidity</p>
+            </div>
+            <div class="card data-card blue">
+              <h4>Water Level</h4>
+              <p class="value" id="water-value">-- cm</p>
+              <p style="font-size: 0.9rem">Distance</p>
             </div>
             <div class="card data-card" style="border-color: #6b7280">
               <h4>Wind</h4>
@@ -225,9 +235,15 @@
           <div class="card irrigation-control">
             <h3 class="widget-title">Irrigation Control</h3>
             <div class="toggle">
-              <span>Automatic Mode</span>
-              <!-- Simple Checkbox for Toggle -->
-              <input type="checkbox" checked />
+              <label for="auto-mode-toggle" style="margin: 0"
+                >Automatic Mode</label
+              >
+              <input
+                type="checkbox"
+                id="auto-mode-toggle"
+                checked
+                title="Enable automatic irrigation mode"
+              />
             </div>
             <p>Last Watered: Today at 6:00 AM</p>
             <button
@@ -246,6 +262,9 @@
               Start 30-Min Manual Cycle
             </button>
           </div>
+
+          <!-- Last updated info -->
+          <p id="last-updated">Last Updated: —</p>
         </div>
 
         <!-- Sidebar Column -->
@@ -288,5 +307,67 @@
         </div>
       </div>
     </main>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        off,
+      } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDyUifI78ARZ8DbR7t8BRHSRQ3bnpvQC-Y",
+        databaseURL:
+          "https://agrosmart-f1233-default-rtdb.asia-southeast1.firebasedatabase.app",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const PATH = "/";
+
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      };
+
+      function toDateText(val) {
+        if (!val) return "Last Updated: —";
+        let d = null;
+        if (typeof val === "number") d = new Date(val);
+        else if (typeof val === "string") {
+          const ms = Date.parse(val);
+          if (!Number.isNaN(ms)) d = new Date(ms);
+        }
+        return d ? `Last Updated: ${d.toLocaleString()}` : "Last Updated: —";
+      }
+
+      let detach = null;
+      function listen() {
+        if (detach) detach();
+        const r = ref(db, PATH);
+        const handler = onValue(r, (snap) => {
+          const data = snap.val() || {};
+          const temp = data.temperature;
+          const hum = data.humidity;
+          const dist = data.distance;
+          const sdate = data.sensordate;
+
+          const atmo = [
+            temp != null ? `${temp}°C` : "--°C",
+            hum != null ? `${hum}%` : "--%",
+          ].join(" / ");
+          setText("atmo-value", atmo);
+
+          setText("water-value", dist != null ? `${dist} cm` : "-- cm");
+          setText("last-updated", toDateText(sdate));
+        });
+
+        detach = () => off(r, "value", handler);
+      }
+
+      listen();
+    </script>
   </body>
 </html>
