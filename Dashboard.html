@@ -16,16 +16,19 @@
         --blue: #3b82f6;
         --orange: #f97316;
         --purple: #8b5cf6;
+        --chip-bg: #f1f5f9;
       }
-
+      * {
+        box-sizing: border-box;
+      }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
         margin: 0;
         background-color: var(--background-light);
         color: var(--body-text);
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+          Helvetica, Arial, sans-serif;
+        line-height: 1.5;
       }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -34,340 +37,1079 @@
 
       /* Header */
       .dashboard-header {
-        background-color: var(--white);
+        background: var(--white);
         border-bottom: 1px solid var(--border-color);
       }
-      .dashboard-header .container {
+      .dashboard-header .inner {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        justify-content: space-between;
+        padding: 1rem 0;
       }
       .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
+        font-size: 1.25rem;
+        font-weight: 700;
         color: var(--dark-text);
         text-decoration: none;
       }
-      .logout-btn {
-        text-decoration: none;
-        color: var(--body-text);
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        transition: background-color 0.3s;
-      }
-      .logout-btn:hover {
-        background-color: var(--background-light);
-      }
-
-      /* Main Content */
-      .page-header {
+      .header-actions {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        gap: 0.75rem;
       }
-      .page-header h1 {
-        font-size: 2rem;
-        color: var(--dark-text);
+      select,
+      button,
+      input[type="file"],
+      input[type="text"] {
+        font: inherit;
       }
-      .farm-selector {
-        padding: 0.5rem;
+      .btn {
+        cursor: pointer;
         border: 1px solid var(--border-color);
         border-radius: 8px;
-        font-size: 1rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--white);
+        color: var(--dark-text);
+        transition: background 0.15s ease;
+      }
+      .btn:hover {
+        background: #f3f4f6;
+      }
+      .btn.primary {
+        background: var(--primary-green);
+        color: white;
+        border: none;
+      }
+      .btn.blue {
+        background: var(--blue);
+        color: white;
+        border: none;
+      }
+      .btn.orange {
+        background: var(--orange);
+        color: white;
+        border: none;
+      }
+      .btn.purple {
+        background: var(--purple);
+        color: white;
+        border: none;
       }
 
-      .dashboard-grid {
+      /* Layout */
+      .grid {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 20px;
+        padding: 20px 0;
+        grid-template-columns: 1.2fr 0.8fr;
       }
-
-      @media (min-width: 1024px) {
-        .dashboard-grid {
-          grid-template-columns: 2fr 1fr;
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
         }
       }
 
-      /* Widgets and Cards */
+      /* Cards */
       .card {
-        background-color: var(--white);
-        padding: 1.5rem;
-        border-radius: 12px;
+        background: var(--white);
         border: 1px solid var(--border-color);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        padding: 16px;
       }
-
-      .widget-title {
-        font-size: 1.25rem;
-        font-weight: 600;
+      .card h3,
+      .card h4 {
+        margin: 0 0 0.5rem 0;
         color: var(--dark-text);
-        margin-bottom: 1.5rem;
       }
-
-      .data-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+      .metric {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
       }
-
-      .data-card {
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 5px solid;
+      .metric .value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark-text);
       }
-      .data-card h4 {
-        margin: 0 0 0.5rem;
-        font-size: 0.9rem;
+      .metric .sub {
+        font-size: 0.95rem;
         color: var(--body-text);
       }
-      .data-card .value {
-        font-size: 2rem;
-        font-weight: bold;
-      }
-      .data-card .status {
-        font-size: 0.9rem;
-        font-weight: 500;
-      }
 
-      /* Data Card Colors */
-      .data-card.blue {
-        border-color: var(--blue);
+      .muted {
+        color: var(--body-text);
       }
-      .data-card.blue .value {
-        color: var(--blue);
-      }
-      .data-card.orange {
-        border-color: var(--orange);
-      }
-      .data-card.orange .value {
-        color: var(--orange);
-      }
-      .data-card.purple {
-        border-color: var(--purple);
-      }
-      .data-card.purple .value {
-        color: var(--purple);
-      }
-
-      .irrigation-control .toggle {
+      .row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 1rem;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .spaced {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
       }
 
-      /* Alert Widget */
-      .alert-widget .alert {
-        border-left: 5px solid var(--alert-red);
-        padding: 1rem;
-        background-color: rgba(239, 68, 68, 0.05);
+      /* Chips / badges */
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+        background: var(--chip-bg);
+        color: var(--dark-text);
+        border: 1px solid var(--border-color);
       }
-      .alert-widget .alert h4 {
-        color: var(--alert-red);
-        font-size: 1.1rem;
-        margin: 0 0 0.5rem;
+      .chip.success {
+        background: #ecfdf5;
+        color: #065f46;
+        border-color: #a7f3d0;
       }
-      .alert-widget .alert p,
-      .alert-widget .alert ol {
-        margin: 0;
-        padding-left: 1.2rem;
+      .chip.warn {
+        background: #fff7ed;
+        color: #7c2d12;
+        border-color: #fed7aa;
+      }
+      .chip.danger {
+        background: #fef2f2;
+        color: #7f1d1d;
+        border-color: #fecaca;
+      }
+      .badge {
+        display: inline-block;
+        border-radius: 8px;
+        padding: 2px 8px;
+        font-size: 0.8rem;
+        border: 1px solid var(--border-color);
+        background: var(--chip-bg);
+      }
+      .badge.high {
+        background: #fef2f2;
+        color: #991b1b;
+        border-color: #fecaca;
+      }
+      .badge.medium {
+        background: #fff7ed;
+        color: #9a3412;
+        border-color: #fed7aa;
+      }
+      .badge.low {
+        background: #ecfdf5;
+        color: #065f46;
+        border-color: #a7f3d0;
+      }
+
+      /* Gemini widget */
+      .gemini-widget .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .gemini-widget .output {
+        background: #f8fafc;
+        border: 1px dashed var(--border-color);
+        border-radius: 10px;
+        padding: 12px;
+        min-height: 120px;
+        white-space: pre-wrap;
+      }
+      .image-upload {
+        margin-top: 1rem;
+      }
+      .image-upload label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      #gemini-image-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      #gemini-image-preview {
+        display: none;
+        max-height: 140px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+      }
+
+      /* Chat UI */
+      .chat {
+        margin-top: 1rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1rem;
+      }
+      .chat h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--dark-text);
+      }
+      .chat-window {
+        height: 260px;
+        overflow: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px;
+        background: #f8fafc;
+      }
+      .chat-msg {
+        margin-bottom: 10px;
+      }
+      .chat-msg .role {
+        font-weight: 600;
+        color: var(--dark-text);
+        margin-right: 6px;
+      }
+      .chat-input-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        align-items: center;
+      }
+      #chat-input {
+        flex: 1;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        background: var(--white);
+        color: var(--dark-text);
+      }
+
+      /* Lists */
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .list-item {
+        display: grid;
+        gap: 6px;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 10px;
+        background: #f8fafc;
+      }
+      .list-item .title {
+        font-weight: 600;
+        color: var(--dark-text);
+      }
+      .list-item .meta {
+        font-size: 0.85rem;
+        color: var(--body-text);
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
       }
     </style>
   </head>
   <body>
+    <!-- Header -->
     <header class="dashboard-header">
-      <div class="container">
-        <a href="#" class="logo">AgroSmart</a>
-        <a href="index.html" class="logout-btn">Log Out</a>
+      <div class="container inner">
+        <a class="logo" href="#">AgroSmart</a>
+        <div class="header-actions">
+          <label for="farm-selector" class="small">Farm:</label>
+          <select id="farm-selector" class="btn">
+            <option>Field A — Wheat</option>
+            <option>Field B — Maize</option>
+          </select>
+          <a class="btn" href="index.html">Logout</a>
+        </div>
       </div>
     </header>
 
-    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem">
-      <div class="page-header">
-        <h1>Your Farm Overview</h1>
-        <label
-          for="farm-selector"
-          style="margin-right: 0.5rem; font-weight: 500"
-          >Select Farm:</label
-        >
-        <select id="farm-selector" class="farm-selector">
-          <option>Jorethang Farm - Wheat Plot</option>
-          <option>Hillside Plot - Maize</option>
-        </select>
-      </div>
-
-      <div class="dashboard-grid">
-        <!-- Main Content Column -->
-        <div class="main-column">
-          <div class="data-cards-grid">
-            <div class="card data-card blue">
+    <main class="container">
+      <div class="grid">
+        <!-- Left column: Sensors + Controls -->
+        <section class="left">
+          <div class="row" style="gap: 20px; flex-wrap: wrap">
+            <div class="card" style="flex: 1 1 240px">
               <h4>Soil Moisture</h4>
-              <p class="value">45%</p>
-              <p class="status" style="color: var(--primary-green)">Optimal</p>
+              <div class="metric">
+                <div id="soilMoistureValue" class="value">45%</div>
+                <div class="sub">Optimal</div>
+              </div>
             </div>
-            <div class="card data-card orange">
+
+            <div class="card" style="flex: 1 1 240px">
               <h4>Soil Temperature</h4>
-              <p class="value">22°C</p>
+              <div class="metric">
+                <div id="soilTemperatureValue" class="value">22°C</div>
+              </div>
             </div>
-            <div class="card data-card purple">
+
+            <div class="card" style="flex: 1 1 240px">
               <h4>Atmosphere</h4>
-              <p class="value" id="atmo-value">--°C / --%</p>
-              <p style="font-size: 0.9rem">Temp / Humidity</p>
+              <div class="metric">
+                <div class="value">
+                  <span id="atmTempValue">--</span>°C /
+                  <span id="atmHumidityValue">--</span>%
+                </div>
+              </div>
+              <div class="small muted">Temp / Humidity</div>
             </div>
-            <div class="card data-card blue">
+
+            <div class="card" style="flex: 1 1 240px">
               <h4>Water Level</h4>
-              <p class="value" id="water-value">-- cm</p>
-              <p style="font-size: 0.9rem">Distance</p>
+              <div class="metric">
+                <div class="value"><span id="waterLevelValue">--</span> cm</div>
+              </div>
+              <div class="small muted">Distance</div>
             </div>
-            <div class="card data-card" style="border-color: #6b7280">
+
+            <div class="card" style="flex: 1 1 240px">
               <h4>Wind</h4>
-              <p class="value" style="color: #374151">12 km/h</p>
-              <p style="font-size: 0.9rem">from NW</p>
+              <div class="metric">
+                <div id="windValue" class="value">12 km/h</div>
+                <div class="sub">from NW</div>
+              </div>
+            </div>
+
+            <div class="card" style="flex: 1 1 100%">
+              <h3>Irrigation Control</h3>
+              <div class="spaced">
+                <div class="row">
+                  <input id="auto-mode-toggle" type="checkbox" />
+                  <label for="auto-mode-toggle">Automatic Mode</label>
+                </div>
+                <div class="small">Last Watered: Today at 6:00 AM</div>
+              </div>
+            </div>
+
+            <!-- New: Smart Risk Assessment -->
+            <div class="card" style="flex: 1 1 100%">
+              <div class="spaced">
+                <h3>Smart Risk Assessment</h3>
+                <span id="riskChip" class="chip">Risk: —</span>
+              </div>
+              <div id="riskDetails" class="small muted" style="margin-top: 8px">
+                Press “Assess Risk” to evaluate current conditions.
+              </div>
+              <div class="actions">
+                <button id="risk-btn" class="btn orange">Assess Risk</button>
+              </div>
+            </div>
+
+            <!-- New: AI Action Plan (Structured) -->
+            <div class="card" style="flex: 1 1 100%">
+              <div class="spaced">
+                <h3>AI Action Plan</h3>
+                <span class="chip">JSON backed</span>
+              </div>
+              <div class="actions" style="margin-top: 8px">
+                <button id="plan-btn" class="btn blue">Generate Plan</button>
+                <button id="plan-clear-btn" class="btn">Clear Plan</button>
+              </div>
+              <div id="planList" class="list"></div>
+            </div>
+
+            <!-- New: Image Disease/Pest Analysis -->
+            <div class="card" style="flex: 1 1 100%">
+              <div class="spaced">
+                <h3>Image Disease/Pest Analysis</h3>
+                <span class="chip">Vision</span>
+              </div>
+              <div id="diseaseResult" class="list"></div>
+              <div class="actions" style="margin-top: 8px">
+                <button id="disease-btn" class="btn purple">
+                  Analyze Image
+                </button>
+              </div>
+              <div class="small muted">
+                Attach a leaf/soil image below before analyzing.
+              </div>
             </div>
           </div>
+        </section>
 
-          <div class="card irrigation-control">
-            <h3 class="widget-title">Irrigation Control</h3>
-            <div class="toggle">
-              <label for="auto-mode-toggle" style="margin: 0"
-                >Automatic Mode</label
-              >
-              <input
-                type="checkbox"
-                id="auto-mode-toggle"
-                checked
-                title="Enable automatic irrigation mode"
-              />
+        <!-- Right column: Gemini AI Insights -->
+        <aside class="right">
+          <div class="card gemini-widget">
+            <h3>Gemini AI Insights</h3>
+
+            <div id="gemini-output" class="output">
+              Click “Analyze Current Conditions” to generate insights.
             </div>
-            <p>Last Watered: Today at 6:00 AM</p>
-            <button
-              style="
-                width: 100%;
-                padding: 0.8rem;
-                background-color: var(--blue);
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-size: 1rem;
-                cursor: pointer;
-                margin-top: 1rem;
-              "
-            >
-              Start 30-Min Manual Cycle
-            </button>
-          </div>
 
-          <!-- Last updated info -->
-          <p id="last-updated">Last Updated: —</p>
-        </div>
+            <!-- Image upload UI for Gemini -->
+            <div class="image-upload">
+              <label for="gemini-image-input">Add image (optional)</label>
+              <input id="gemini-image-input" type="file" accept="image/*" />
+              <div id="gemini-image-row">
+                <img id="gemini-image-preview" alt="Selected image preview" />
+                <button id="clear-image-btn" type="button" class="btn">
+                  Clear image
+                </button>
+              </div>
+              <div class="small muted">
+                Tip: Clear photos of leaves, soil, or pests improve visual
+                analysis.
+              </div>
+            </div>
 
-        <!-- Sidebar Column -->
-        <div class="sidebar">
-          <div class="card alert-widget">
-            <h3 class="widget-title">Actionable Alerts</h3>
-            <div class="alert">
-              <h4>CRITICAL: Frost Warning</h4>
-              <p>A low of <strong>-2°C</strong> is forecast in 48 hours.</p>
-              <h5 style="margin-top: 1rem; font-weight: 600">
-                Recommended Steps:
-              </h5>
-              <ol>
-                <li>Cover sensitive crops with frost cloths.</li>
-                <li>Run sprinklers overnight to protect buds.</li>
-                <li>Ensure soil is moist to retain heat.</li>
-              </ol>
+            <div class="actions">
+              <button id="analyze-btn" class="btn primary">
+                Analyze Current Conditions
+              </button>
+            </div>
+
+            <div class="small muted" style="margin-top: 0.5rem">
+              Multimodal Gemini accepts inline base64 images and text in one
+              request; keep images under ~7–10MB for reliability.
+            </div>
+
+            <!-- Chat section -->
+            <div class="chat">
+              <h4>Chat</h4>
+              <div
+                id="chat-window"
+                class="chat-window"
+                aria-live="polite"
+                aria-label="Gemini chat transcript"
+              ></div>
+              <div class="chat-input-row">
+                <input
+                  id="chat-input"
+                  type="text"
+                  placeholder="Ask about irrigation, pests, or schedules..."
+                />
+                <button id="chat-send-btn" class="btn">Send</button>
+                <button id="chat-reset-btn" class="btn">Reset</button>
+              </div>
+              <div class="small muted">
+                Chat sends role-based history in contents for multi‑turn
+                conversation, optionally including the current image on user
+                turns.
+              </div>
             </div>
           </div>
-
-          <div class="card" style="margin-top: 2rem">
-            <h3 class="widget-title">5-Day Forecast</h3>
-            <ul
-              style="
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                gap: 1rem;
-                display: flex;
-                flex-direction: column;
-              "
-            >
-              <li><strong>Tomorrow:</strong> 26°C / 15°C - Partly Cloudy 🌥️</li>
-              <li>
-                <strong>Saturday:</strong> 24°C / 13°C - Showers 🌦️ (60% Chance)
-              </li>
-              <li><strong>Sunday:</strong> 22°C / 10°C - Sunny ☀️</li>
-            </ul>
-          </div>
-        </div>
+        </aside>
       </div>
     </main>
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        onValue,
-        off,
-      } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDyUifI78ARZ8DbR7t8BRHSRQ3bnpvQC-Y",
-        databaseURL:
-          "https://agrosmart-f1233-default-rtdb.asia-southeast1.firebasedatabase.app",
+    <script>
+      // ----------------------------
+      // Simulated live sensor object (replace with real data wiring if available)
+      // ----------------------------
+      const currentSensorData = {
+        temperature: null, // e.g., 28
+        humidity: null, // e.g., 64
+        distance: null, // e.g., 31
       };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
+      function refreshAtmosphere() {
+        const t = document.getElementById("atmTempValue");
+        const h = document.getElementById("atmHumidityValue");
+        const d = document.getElementById("waterLevelValue");
+        if (currentSensorData.temperature != null)
+          t.textContent = String(currentSensorData.temperature);
+        if (currentSensorData.humidity != null)
+          h.textContent = String(currentSensorData.humidity);
+        if (currentSensorData.distance != null)
+          d.textContent = String(currentSensorData.distance);
+      }
+      refreshAtmosphere();
 
-      const PATH = "/";
+      // ----------------------------
+      // Gemini API Configuration
+      // ----------------------------
+      const GEMINI_API_KEY = "AIzaSyAAwmU20oVNuuQIK51eIu1Sl6VnQs0p5S4"; // <= set a valid key
+      const GEMINI_MODEL = "gemini-2.5-flash"; // multimodal text+image
+      const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
-      const setText = (id, text) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = text;
-      };
+      // Safety settings (conservative defaults)
+      const SAFETY_SETTINGS = [
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE",
+        },
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE",
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE",
+        },
+        {
+          category: "HARM_CATEGORY_SEXUAL_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE",
+        },
+        {
+          category: "HARM_CATEGORY_CIVIC_INTEGRITY",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE",
+        },
+      ];
 
-      function toDateText(val) {
-        if (!val) return "Last Updated: —";
-        let d = null;
-        if (typeof val === "number") d = new Date(val);
-        else if (typeof val === "string") {
-          const ms = Date.parse(val);
-          if (!Number.isNaN(ms)) d = new Date(ms);
-        }
-        return d ? `Last Updated: ${d.toLocaleString()}` : "Last Updated: —";
+      // ----------------------------
+      // DOM references
+      // ----------------------------
+      const geminiOutputEl = document.getElementById("gemini-output");
+      const analyzeBtn = document.getElementById("analyze-btn");
+
+      const imageInput = document.getElementById("gemini-image-input");
+      const imagePreview = document.getElementById("gemini-image-preview");
+      const clearImageBtn = document.getElementById("clear-image-btn");
+
+      const farmSelector = document.getElementById("farm-selector");
+      const autoToggle = document.getElementById("auto-mode-toggle");
+
+      // Risk
+      const riskBtn = document.getElementById("risk-btn");
+      const riskChip = document.getElementById("riskChip");
+      const riskDetails = document.getElementById("riskDetails");
+
+      // Action plan
+      const planBtn = document.getElementById("plan-btn");
+      const planClearBtn = document.getElementById("plan-clear-btn");
+      const planList = document.getElementById("planList");
+
+      // Disease
+      const diseaseBtn = document.getElementById("disease-btn");
+      const diseaseResult = document.getElementById("diseaseResult");
+
+      // Chat
+      const chatWindow = document.getElementById("chat-window");
+      const chatInput = document.getElementById("chat-input");
+      const chatSendBtn = document.getElementById("chat-send-btn");
+      const chatResetBtn = document.getElementById("chat-reset-btn");
+
+      // ----------------------------
+      // Utilities
+      // ----------------------------
+      function sanitize(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
       }
 
-      let detach = null;
-      function listen() {
-        if (detach) detach();
-        const r = ref(db, PATH);
-        const handler = onValue(r, (snap) => {
-          const data = snap.val() || {};
-          const temp = data.temperature;
-          const hum = data.humidity;
-          const dist = data.distance;
-          const sdate = data.sensordate;
-
-          const atmo = [
-            temp != null ? `${temp}°C` : "--°C",
-            hum != null ? `${hum}%` : "--%",
-          ].join(" / ");
-          setText("atmo-value", atmo);
-
-          setText("water-value", dist != null ? `${dist} cm` : "-- cm");
-          setText("last-updated", toDateText(sdate));
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(file);
         });
-
-        detach = () => off(r, "value", handler);
       }
 
-      listen();
+      function setChip(el, label, level) {
+        el.className = "chip";
+        if (level === "low") el.classList.add("success");
+        if (level === "medium") el.classList.add("warn");
+        if (level === "high") el.classList.add("danger");
+        el.textContent = label;
+      }
+
+      // ----------------------------
+      // Image handling
+      // ----------------------------
+      let geminiImagePart = null;
+
+      imageInput?.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+          alert("Please select an image file.");
+          return;
+        }
+        if (file.size > 9.5 * 1024 * 1024) {
+          alert("Image too large (>9.5MB). Choose a smaller image.");
+          return;
+        }
+
+        try {
+          const base64Url = await fileToBase64(file);
+          const base64Raw = base64Url.split(",")[1]; // strip data:mime/type;base64,
+          geminiImagePart = {
+            inline_data: {
+              mime_type: file.type,
+              data: base64Raw,
+            },
+          };
+          imagePreview.src = base64Url;
+          imagePreview.style.display = "block";
+        } catch {
+          alert("Could not read image file.");
+        }
+      });
+
+      clearImageBtn?.addEventListener("click", () => {
+        geminiImagePart = null;
+        if (imageInput) imageInput.value = "";
+        if (imagePreview) {
+          imagePreview.src = "";
+          imagePreview.style.display = "none";
+        }
+      });
+
+      // ----------------------------
+      // Generic Gemini call helper
+      // ----------------------------
+      async function callGemini({ parts, generationConfig = null }) {
+        const body = { contents: [{ parts }], safetySettings: SAFETY_SETTINGS };
+        if (generationConfig) body.generationConfig = generationConfig;
+        const response = await fetch(GEMINI_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok)
+          throw new Error(
+            `API Error: ${response.status} ${response.statusText}`
+          );
+        return response.json();
+      }
+
+      // ----------------------------
+      // Analyze handler (single-turn insights)
+      // ----------------------------
+      analyzeBtn?.addEventListener("click", getGeminiAnalysis);
+
+      async function getGeminiAnalysis() {
+        if (!GEMINI_API_KEY) {
+          geminiOutputEl.textContent =
+            "Error: Gemini API Key not set. Please update the script.";
+          return;
+        }
+
+        analyzeBtn.disabled = true;
+        analyzeBtn.textContent = "Analyzing...";
+        geminiOutputEl.textContent = "Thinking...";
+
+        // Pull current UI values
+        const soilMoisture =
+          document.getElementById("soilMoistureValue")?.textContent?.trim() ||
+          "--";
+        const soilTemperature =
+          document
+            .getElementById("soilTemperatureValue")
+            ?.textContent?.trim() || "--";
+        const airTemp =
+          document.getElementById("atmTempValue")?.textContent?.trim() || "--";
+        const airHumidity =
+          document.getElementById("atmHumidityValue")?.textContent?.trim() ||
+          "--";
+        const waterLevel =
+          document.getElementById("waterLevelValue")?.textContent?.trim() ||
+          "--";
+        const wind =
+          (document.getElementById("windValue")?.textContent?.trim() || "--") +
+          " from NW";
+
+        const farmName = farmSelector?.value || "Field A — Wheat";
+        const crop = farmName.toLowerCase().includes("wheat")
+          ? "Wheat"
+          : "Maize";
+        const irrigationMode = autoToggle?.checked ? "Automatic" : "Manual";
+
+        const prompt = `
+You are an expert agronomist for a smart farm dashboard.
+Analyze the following conditions and provide actionable advice.
+If an image is provided, incorporate visual evidence.
+
+Farm: ${farmName}
+Crop: ${crop}
+- Soil Moisture: ${soilMoisture}
+- Soil Temperature: ${soilTemperature}
+- Air Temperature: ${airTemp} °C
+- Air Humidity: ${airHumidity} %
+- Water Tank Level: ${waterLevel} cm
+- Wind: ${wind}
+- Irrigation Mode: ${irrigationMode}
+- Last Watered: Today at 6:00 AM
+
+Respond as:
+1) Summary
+2) Potential Risks
+3) 2–3 Recommendations
+`.trim();
+
+        const parts = [];
+        if (geminiImagePart) parts.push(geminiImagePart);
+        parts.push({ text: prompt });
+
+        try {
+          const data = await callGemini({ parts });
+          const text =
+            (data?.candidates?.[0]?.content?.parts || [])
+              .map((p) => p.text)
+              .filter(Boolean)
+              .join("\n\n") || "No response.";
+          geminiOutputEl.innerHTML = sanitize(text).replace(/\n/g, "<br/>");
+        } catch (err) {
+          console.error("Gemini API call failed:", err);
+          geminiOutputEl.textContent =
+            "Sorry, analysis failed. Check console for errors.";
+        } finally {
+          analyzeBtn.disabled = false;
+          analyzeBtn.textContent = "Analyze Current Conditions";
+        }
+      }
+
+      // ----------------------------
+      // Smart Risk Assessment
+      // ----------------------------
+      riskBtn?.addEventListener("click", async () => {
+        if (!GEMINI_API_KEY) return alert("Gemini API Key not set.");
+
+        riskBtn.disabled = true;
+        riskBtn.textContent = "Assessing...";
+        riskDetails.textContent = "Evaluating current conditions...";
+
+        const soilMoisture =
+          document.getElementById("soilMoistureValue")?.textContent?.trim() ||
+          "--";
+        const soilTemperature =
+          document
+            .getElementById("soilTemperatureValue")
+            ?.textContent?.trim() || "--";
+        const airTemp =
+          document.getElementById("atmTempValue")?.textContent?.trim() || "--";
+        const airHumidity =
+          document.getElementById("atmHumidityValue")?.textContent?.trim() ||
+          "--";
+        const waterLevel =
+          document.getElementById("waterLevelValue")?.textContent?.trim() ||
+          "--";
+
+        const prompt = `
+Rate risk from 0-100 and return:
+- score: number
+- level: one of ["low","medium","high"]
+- drivers: 2-3 short bullets explaining why
+
+Consider: soil moisture ${soilMoisture}, soil temp ${soilTemperature}, air temp ${airTemp}, humidity ${airHumidity}, water tank distance ${waterLevel}.
+`.trim();
+
+        const schema = {
+          type: "object",
+          properties: {
+            score: { type: "number" },
+            level: { type: "string", enum: ["low", "medium", "high"] },
+            drivers: { type: "array", items: { type: "string" }, maxItems: 3 },
+          },
+          required: ["score", "level", "drivers"],
+        };
+
+        try {
+          const data = await callGemini({
+            parts: [{ text: prompt }],
+            generationConfig: {
+              response_mime_type: "application/json",
+              response_schema: schema,
+            },
+          });
+          const json = JSON.parse(
+            data?.candidates?.[0]?.content?.parts?.[0]?.text || "{}"
+          );
+          const level = (json.level || "low").toLowerCase();
+          const score = Math.round(Number(json.score || 0));
+          setChip(riskChip, `Risk: ${score}/100 (${level})`, level);
+          riskDetails.innerHTML =
+            (json.drivers || [])
+              .map(sanitize)
+              .map((t) => `• ${t}`)
+              .join("<br/>") || "—";
+        } catch (e) {
+          console.error("Risk assess error:", e);
+          setChip(riskChip, "Risk: —", "low");
+          riskDetails.textContent = "Could not assess risk.";
+        } finally {
+          riskBtn.disabled = false;
+          riskBtn.textContent = "Assess Risk";
+        }
+      });
+
+      // ----------------------------
+      // AI Action Plan (Structured JSON)
+      // ----------------------------
+      planClearBtn?.addEventListener("click", () => {
+        planList.innerHTML = "";
+      });
+
+      planBtn?.addEventListener("click", async () => {
+        if (!GEMINI_API_KEY) return alert("Gemini API Key not set.");
+        planBtn.disabled = true;
+        planBtn.textContent = "Generating...";
+
+        const farmName = farmSelector?.value || "Field A — Wheat";
+        const crop = farmName.toLowerCase().includes("wheat")
+          ? "Wheat"
+          : "Maize";
+        const soilMoisture =
+          document.getElementById("soilMoistureValue")?.textContent?.trim() ||
+          "--";
+        const airTemp =
+          document.getElementById("atmTempValue")?.textContent?.trim() || "--";
+        const airHumidity =
+          document.getElementById("atmHumidityValue")?.textContent?.trim() ||
+          "--";
+
+        const prompt = `
+Create an action plan for the next 24 hours for ${crop} at ${farmName}.
+Consider soil moisture ${soilMoisture}, air temp ${airTemp}°C, humidity ${airHumidity}%.
+Return tasks with clear scheduling and priorities.
+`.trim();
+
+        const schema = {
+          type: "object",
+          properties: {
+            tasks: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  reason: { type: "string" },
+                  priority: { type: "string", enum: ["high", "medium", "low"] },
+                  schedule: {
+                    type: "string",
+                    description: "When to do (e.g., Now, In 2h, Tonight 8PM)",
+                  },
+                  duration_minutes: { type: "number" },
+                },
+                required: ["title", "priority", "schedule"],
+              },
+              maxItems: 6,
+            },
+          },
+          required: ["tasks"],
+        };
+
+        try {
+          const data = await callGemini({
+            parts: [{ text: prompt }],
+            generationConfig: {
+              response_mime_type: "application/json",
+              response_schema: schema,
+            },
+          });
+          const json = JSON.parse(
+            data?.candidates?.[0]?.content?.parts?.[0]?.text || '{"tasks": []}'
+          );
+          const tasks = Array.isArray(json.tasks) ? json.tasks : [];
+          planList.innerHTML = "";
+          for (const t of tasks) {
+            const div = document.createElement("div");
+            div.className = "list-item";
+            const pr = (t.priority || "low").toLowerCase();
+            div.innerHTML = `
+            <div class="spaced">
+              <div class="title">${sanitize(t.title || "Task")}</div>
+              <span class="badge ${pr}">${sanitize(
+              (t.priority || "low").toUpperCase()
+            )}</span>
+            </div>
+            <div class="meta">
+              <span class="badge">When: ${sanitize(t.schedule || "—")}</span>
+              <span class="badge">Duration: ${sanitize(
+                String(t.duration_minutes ?? "—")
+              )} min</span>
+            </div>
+            <div class="small muted">${sanitize(t.reason || "")}</div>
+          `;
+            planList.appendChild(div);
+          }
+          if (!tasks.length) {
+            planList.innerHTML =
+              '<div class="small muted">No tasks returned.</div>';
+          }
+        } catch (e) {
+          console.error("Plan error:", e);
+          planList.innerHTML =
+            '<div class="small muted">Could not generate a plan.</div>';
+        } finally {
+          planBtn.disabled = false;
+          planBtn.textContent = "Generate Plan";
+        }
+      });
+
+      // ----------------------------
+      // Image Disease/Pest Analysis (Vision)
+      // ----------------------------
+      diseaseBtn?.addEventListener("click", async () => {
+        if (!GEMINI_API_KEY) return alert("Gemini API Key not set.");
+        if (!geminiImagePart) return alert("Please add an image first.");
+
+        diseaseBtn.disabled = true;
+        diseaseBtn.textContent = "Analyzing...";
+        diseaseResult.innerHTML = "";
+
+        const farmName = farmSelector?.value || "Field A — Wheat";
+        const crop = farmName.toLowerCase().includes("wheat")
+          ? "Wheat"
+          : "Maize";
+
+        const prompt = `
+From the provided image, identify likely plant disease/pest for ${crop}.
+Return JSON with: likely_disease (string), confidence (0..1), signs (array), actions (array of short steps).
+`.trim();
+
+        const schema = {
+          type: "object",
+          properties: {
+            likely_disease: { type: "string" },
+            confidence: { type: "number" },
+            signs: { type: "array", items: { type: "string" }, maxItems: 5 },
+            actions: { type: "array", items: { type: "string" }, maxItems: 5 },
+          },
+          required: ["likely_disease", "confidence", "signs", "actions"],
+        };
+
+        try {
+          const data = await callGemini({
+            parts: [geminiImagePart, { text: prompt }],
+            generationConfig: {
+              response_mime_type: "application/json",
+              response_schema: schema,
+            },
+          });
+          const json = JSON.parse(
+            data?.candidates?.[0]?.content?.parts?.[0]?.text || "{}"
+          );
+          const item = document.createElement("div");
+          item.className = "list-item";
+          item.innerHTML = `
+          <div class="spaced">
+            <div class="title">${sanitize(
+              json.likely_disease || "Unknown issue"
+            )}</div>
+            <span class="badge">${sanitize(
+              "Confidence: " +
+                (json.confidence != null
+                  ? Math.round(json.confidence * 100) + "%"
+                  : "—")
+            )}</span>
+          </div>
+          <div class="meta"><span class="badge">Crop: ${sanitize(
+            crop
+          )}</span></div>
+          <div><strong>Signs:</strong><br/>${
+            (json.signs || [])
+              .map(sanitize)
+              .map((t) => "• " + t)
+              .join("<br/>") || "—"
+          }</div>
+          <div style="margin-top:6px;"><strong>Actions:</strong><br/>${
+            (json.actions || [])
+              .map(sanitize)
+              .map((t) => "• " + t)
+              .join("<br/>") || "—"
+          }</div>
+        `;
+          diseaseResult.appendChild(item);
+        } catch (e) {
+          console.error("Disease analysis error:", e);
+          diseaseResult.innerHTML =
+            '<div class="small muted">Could not analyze the image.</div>';
+        } finally {
+          diseaseBtn.disabled = false;
+          diseaseBtn.textContent = "Analyze Image";
+        }
+      });
+
+      // ----------------------------
+      // Chat: multi-turn conversation
+      // ----------------------------
+      const CHAT_INSTRUCTION =
+        "You are a helpful agronomist for a smart farm dashboard. Answer clearly and concisely. Reference farm sensors when relevant. If an image was added, incorporate visual cues when helpful.";
+
+      /** @type {{role:'user'|'model', text:string}[]} */
+      let chatTranscript = [];
+
+      function renderChat() {
+        chatWindow.innerHTML = "";
+        for (const msg of chatTranscript) {
+          const div = document.createElement("div");
+          div.className = "chat-msg";
+          div.innerHTML = `<span class="role">${sanitize(
+            msg.role === "user" ? "You" : "Gemini"
+          )}:</span> ${sanitize(msg.text)}`;
+          chatWindow.appendChild(div);
+        }
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      async function sendChatMessage() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        if (!GEMINI_API_KEY) {
+          alert("Gemini API Key not set.");
+          return;
+        }
+
+        chatTranscript.push({ role: "user", text });
+        renderChat();
+        chatInput.value = "";
+
+        // Build contents for Gemini: instruction + history + current
+        const contents = [];
+        contents.push({ role: "user", parts: [{ text: CHAT_INSTRUCTION }] });
+
+        for (const turn of chatTranscript) {
+          const parts = [];
+          if (turn.role === "user" && geminiImagePart) {
+            parts.push(geminiImagePart); // optionally include current image on user turns
+          }
+          parts.push({ text: turn.text });
+          contents.push({ role: turn.role, parts });
+        }
+
+        chatSendBtn.disabled = true;
+        chatSendBtn.textContent = "Sending...";
+
+        try {
+          const resp = await fetch(GEMINI_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents, safetySettings: SAFETY_SETTINGS }),
+          });
+          if (!resp.ok)
+            throw new Error(`API Error: ${resp.status} ${resp.statusText}`);
+          const data = await resp.json();
+
+          const reply =
+            (data?.candidates?.[0]?.content?.parts || [])
+              .map((p) => p.text)
+              .filter(Boolean)
+              .join("\n\n") || "...";
+          chatTranscript.push({ role: "model", text: reply });
+          renderChat();
+        } catch (e) {
+          console.error("Chat API error:", e);
+          chatTranscript.push({
+            role: "model",
+            text: "Sorry, something went wrong processing that message.",
+          });
+          renderChat();
+        } finally {
+          chatSendBtn.disabled = false;
+          chatSendBtn.textContent = "Send";
+        }
+      }
+
+      chatSendBtn?.addEventListener("click", sendChatMessage);
+      chatInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendChatMessage();
+        }
+      });
+      chatResetBtn?.addEventListener("click", () => {
+        chatTranscript = [];
+        renderChat();
+      });
     </script>
   </body>
 </html>
